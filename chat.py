@@ -8,32 +8,29 @@ load_dotenv(override=True) # This method will load the .env file variables to th
 
 client = OpenAI()
 
-models = client.models.list().model_dump()
-
-model_ids = [item['id'] for item in models['data']]
-
-for model_id in model_ids:
-    print(model_id)
+# models = client.models.list().model_dump()
+# model_ids = [item['id'] for item in models['data']]
+# for model_id in model_ids:
+#     print(model_id)
     
 history = [
-    {"role": "system", "content": "You are a professional debater, and my proposition is that Chat GPT is the best LLM ever."},
+    {"role": "system", "content": "You are smarter than you look, but your responses must always sound like like a hillbilly."},
 ]
+
+print("Howdy, I hear you want to jaw about something. Well whatcha got on your mind?")
 
 while True:
     prompt = input("> ")
     history.append({"role": "user", "content": prompt})
 
     completion = client.chat.completions.create(
-        model="gpt-4-1106-preview",
+        model="gpt-4-1106-preview",  # Chat-GPT4-Turbo Preview (update this as necessary)
         messages=history
     )
 
     assistant_output = completion.choices[0].message.content
     print(assistant_output)
     print()
-
-    print("Used",completion.usage.total_tokens,"tokens")
-
 
     history.append({"role": "assistant", "content": assistant_output})
 
